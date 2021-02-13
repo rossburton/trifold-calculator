@@ -41,8 +41,10 @@ function getInsideMetrics(layout) {
     return layout;
 }
 
-function drawMetrics(layout) {
-  let draw = SVG().addTo('body').size(2*layout.pageWidth, 2*layout.pageHeight).viewbox(0, 0, layout.pageWidth + 5 , layout.pageHeight + 5)
+function drawMetrics(element, layout) {
+  let draw = SVG(element);
+  draw.clear();
+  draw.size(2*layout.pageWidth, 2*layout.pageHeight).viewbox(0, 0, layout.pageWidth + 5 , layout.pageHeight + 5)
 
   /* TODO Use CSS. Dotted grey for folds, solid grey for margins, drop shadow on outline */
   for (let fold of layout.folds)

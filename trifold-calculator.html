@@ -4,26 +4,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.0.16/svg.min.js" integrity="sha512-p3Tp2zn+wApBreZCgRkmMwnfpN8MUPXzzOihXx7iGYXqE7t6m9drY8HeyMeeFuDWiTFKrGUrq3jpbT0vX6zY/Q==" crossorigin="anonymous"></script>
     <script src="trifold.js"></script>
   </head>
-  <body>
-    <p>Outside</p>
+  <body onload="draw();">
+    <div>
+      <label>Margin: <input id="margin-input" type="number" min="0" value="10" oninput="draw();"/></label>
+      <label>Gutter: <input id="gutter-input" type="number" min="0" value="10" oninput="draw();"/></label>
+    </div>
+    <svg id="diagram-outside"></svg>
+    <svg id="diagram-inside"></svg>
     <script>
-      let layout = new Layout();
-      layout.pageWidth = 297;
-      layout.pageHeight = 210;
-      layout.margin = 10;
-      layout.gutter = 10;
-      drawMetrics(getOutsideMetrics(layout));
-    </script>
-    <p>Inside</p>
-    <script>
-      drawMetrics(getInsideMetrics(layout));
-    </script>
+      function draw() {
+        let layout = new Layout();
+        layout.pageWidth = 297;
+        layout.pageHeight = 210;
+        layout.margin = parseInt(document.getElementById('margin-input').value, 10);
+        layout.gutter = parseInt(document.getElementById('gutter-input').value, 10);
+        drawMetrics('#diagram-outside', getOutsideMetrics(layout));
+        drawMetrics('#diagram-inside', getInsideMetrics(layout));
 
-    <script>
-      let m = getOutsideMetrics(layout);
-      console.log(m.panels.flatMap(p => [p.x, p.x + p.w]))
-      let s = `Folds at ${m.folds.join(', ')}. Vertical rulers at ${m}`;
-      console.log(s);
+        console.log(layout.panels.flatMap(p => [p.x, p.x + p.w]))
+        let s = `Folds at ${layout.folds.join(', ')}.`;
+        console.log(s);
+      }
     </script>
   </body>
 </html>
