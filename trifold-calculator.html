@@ -10,22 +10,41 @@
       <label>Horizontal Margin: <input id="margin-horizontal-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
       <label>Gutter: <input id="gutter-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
     </div>
-    <svg id="diagram-outside"></svg>
-    <svg id="diagram-inside"></svg>
+    <div>
+      <svg id="diagram-outside"></svg>
+      <p id="desc-outside"></p>
+    </div>
+    <div>
+      <svg id="diagram-inside"></svg>
+      <p id="desc-inside"></p>
+    </div>
     <script>
+      const hmargin_input = document.getElementById('margin-horizontal-input');
+      const vmargin_input = document.getElementById('margin-vertical-input');
+      const gutter_input = document.getElementById('gutter-input');
+      const desc_outside = document.getElementById('desc-outside');
+      const desc_inside = document.getElementById('desc-inside');
+
+      function describe(layout) {
+        let a = layout.panels.flatMap(p => [p.x, p.x + p.w]);
+        return `Folds at ${layout.folds.join(', ')}. Vertical rulers at ${a.join(', ')}`;
+      }
+
       function draw() {
         let layout = new Layout();
         layout.pageWidth = 297;
         layout.pageHeight = 210;
-        layout.hmargin = parseInt(document.getElementById('margin-horizontal-input').value, 10);
-        layout.vmargin = parseInt(document.getElementById('margin-vertical-input').value, 10);
-        layout.gutter = parseInt(document.getElementById('gutter-input').value, 10);
-        drawMetrics('#diagram-outside', getOutsideMetrics(layout));
-        drawMetrics('#diagram-inside', getInsideMetrics(layout));
+        layout.hmargin = parseInt(hmargin_input.value, 10);
+        layout.vmargin = parseInt(vmargin_input.value, 10);
+        layout.gutter = parseInt(gutter_input.value, 10);
 
-        console.log(layout.panels.flatMap(p => [p.x, p.x + p.w]))
-        let s = `Folds at ${layout.folds.join(', ')}.`;
-        console.log(s);
+        drawMetrics('#diagram-outside', getOutsideMetrics(layout));
+        desc_outside.innerHTML = describe(layout);
+        drawMetrics('#diagram-inside', getInsideMetrics(layout));
+        desc_inside.innerHTML = describe(layout);
+
+        //let s = `Folds at ${layout.folds.join(', ')}.`;
+        //console.log(s);
       }
     </script>
   </body>
