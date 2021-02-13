@@ -6,8 +6,9 @@
   </head>
   <body onload="draw();">
     <div>
-      <label>Margin: <input id="margin-input" type="number" min="0" value="10" oninput="draw();"/></label>
-      <label>Gutter: <input id="gutter-input" type="number" min="0" value="10" oninput="draw();"/></label>
+      <label>Vertical Margin: <input id="margin-vertical-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
+      <label>Horizontal Margin: <input id="margin-horizontal-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
+      <label>Gutter: <input id="gutter-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
     </div>
     <svg id="diagram-outside"></svg>
     <svg id="diagram-inside"></svg>
@@ -16,7 +17,8 @@
         let layout = new Layout();
         layout.pageWidth = 297;
         layout.pageHeight = 210;
-        layout.margin = parseInt(document.getElementById('margin-input').value, 10);
+        layout.hmargin = parseInt(document.getElementById('margin-horizontal-input').value, 10);
+        layout.vmargin = parseInt(document.getElementById('margin-vertical-input').value, 10);
         layout.gutter = parseInt(document.getElementById('gutter-input').value, 10);
         drawMetrics('#diagram-outside', getOutsideMetrics(layout));
         drawMetrics('#diagram-inside', getInsideMetrics(layout));

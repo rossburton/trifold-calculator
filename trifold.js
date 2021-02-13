@@ -3,13 +3,15 @@
 function Layout() {
     this.pageWidth = undefined;
     this.pageHeight = undefined;
-    this.margin = undefined;
+    this.vmargin = undefined;
+    this.hmargin = undefined;
     this.gutter = undefined;
     this.folds = null;
     this.panels = null;
 }
 
 function getOutsideMetrics(layout) {
+    /* TODO sanity check input */
     const thirds = layout.pageWidth / 3;
     const widePanel = thirds + 1;
     const narrowPanel = layout.pageWidth - widePanel * 2;
@@ -17,26 +19,27 @@ function getOutsideMetrics(layout) {
     /* TODO: Can likely generalise this logic further to just iterate over the folds */
     layout.folds = [narrowPanel, narrowPanel + widePanel];
     layout.panels = [
-      { x: layout.margin, y: layout.margin, w: narrowPanel - layout.margin * 2, h: layout.pageHeight - layout.margin * 2 },
-      { x: narrowPanel + layout.margin, y: layout.margin, w: widePanel - layout.margin * 2, h: layout.pageHeight - layout.margin * 2 },
-      { x: narrowPanel + widePanel + layout.margin, y: layout.margin, w: widePanel - layout.margin * 2, h: layout.pageHeight - layout.margin * 2 }
+      { x: layout.hmargin, y: layout.vmargin, w: narrowPanel - layout.hmargin * 2, h: layout.pageHeight - layout.vmargin * 2 },
+      { x: narrowPanel + layout.hmargin, y: layout.vmargin, w: widePanel - layout.hmargin * 2, h: layout.pageHeight - layout.vmargin * 2 },
+      { x: narrowPanel + widePanel + layout.hmargin, y: layout.vmargin, w: widePanel - layout.hmargin * 2, h: layout.pageHeight - layout.vmargin * 2 }
     ];
     return layout;
 }
 
 function getInsideMetrics(layout) {
+    /* TODO sanity check input */
     const thirds = layout.pageWidth / 3;
     const widePanel = thirds + 1;
     const narrowPanel = layout.pageWidth - widePanel * 2;
     // If gutter is unset then use the margin
     if (layout.gutter == undefined)
-        layout.gutter = layout.margin;
+        layout.gutter = layout.hmargin || layout.vmargin;
 
     layout.folds = [widePanel, widePanel + widePanel];
     layout.panels = [
-      { x: layout.margin, y: layout.margin, w: widePanel-layout.margin - layout.gutter/2, h: layout.pageHeight - layout.margin * 2 },
-      { x: widePanel + layout.gutter / 2, y: layout.margin, w: widePanel-layout.gutter, h: layout.pageHeight - layout.margin * 2 },
-      { x: widePanel * 2 + layout.gutter / 2, y: layout.margin, w: narrowPanel-layout.margin - layout.gutter/2, h: layout.pageHeight - layout.margin * 2 }
+      { x: layout.hmargin, y: layout.vmargin, w: widePanel-layout.hmargin - layout.gutter/2, h: layout.pageHeight - layout.vmargin * 2 },
+      { x: widePanel + layout.gutter / 2, y: layout.vmargin, w: widePanel-layout.gutter, h: layout.pageHeight - layout.vmargin * 2 },
+      { x: widePanel * 2 + layout.gutter / 2, y: layout.vmargin, w: narrowPanel-layout.hmargin - layout.gutter/2, h: layout.pageHeight - layout.vmargin * 2 }
     ];
     return layout;
 }
