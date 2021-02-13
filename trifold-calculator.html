@@ -7,15 +7,19 @@
   <body>
     <p>Outside</p>
     <script>
-      drawMetrics(getOutsideMetrics());
+      let layout = new Layout();
+      layout.pageWidth = 297;
+      layout.pageHeight = 210;
+      layout.margin = 10;
+      drawMetrics(getOutsideMetrics(layout));
     </script>
     <p>Inside</p>
     <script>
-      drawMetrics(getInsideMetrics());
+      drawMetrics(getInsideMetrics(layout));
     </script>
 
     <script>
-      let m = getOutsideMetrics();
+      let m = getOutsideMetrics(layout);
       console.log(m.panels.flatMap(p => [p.x, p.x + p.w]))
       let s = `Folds at ${m.folds.join(', ')}. Vertical rulers at ${m}`;
       console.log(s);

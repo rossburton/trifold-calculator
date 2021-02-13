@@ -22,26 +22,34 @@
 
         describe('Trifold', function() {
             it('outside metrics', function() {
-                    let m = getOutsideMetrics();
-                    assert.equal(m.pageWidth, 297);
-                    assert.equal(m.pageHeight, 210);
-                    assert.equal(m.margin, 10);
-                    assert.deepEqual(m.folds, [97, 197]);
-                    assert.lengthOf(m.panels, 3);
-                    assert.deepEqual(m.panels[0], {x: 10, y: 10, w: 77, h: 190});
-                    assert.deepEqual(m.panels[1], {x: 107, y: 10, w: 80, h: 190});
-                    assert.deepEqual(m.panels[2], {x: 207, y: 10, w: 80, h: 190});
+                    let layout = new Layout();
+                    layout.pageWidth = 297;
+                    layout.pageHeight = 210;
+                    layout.margin = 10;
+                    layout = getOutsideMetrics(layout);
+                    assert.equal(layout.pageWidth, 297);
+                    assert.equal(layout.pageHeight, 210);
+                    assert.equal(layout.margin, 10);
+                    assert.deepEqual(layout.folds, [97, 197]);
+                    assert.lengthOf(layout.panels, 3);
+                    assert.deepEqual(layout.panels[0], {x: 10, y: 10, w: 77, h: 190});
+                    assert.deepEqual(layout.panels[1], {x: 107, y: 10, w: 80, h: 190});
+                    assert.deepEqual(layout.panels[2], {x: 207, y: 10, w: 80, h: 190});
                 });
             it(' inside metrics', function() {
-                let m = getInsideMetrics();
-                assert.equal(m.pageWidth, 297);
-                assert.equal(m.pageHeight, 210);
-                assert.equal(m.margin, 10);
-                assert.deepEqual(m.folds, [100, 200]);
-                assert.lengthOf(m.panels, 3);
-                assert.deepEqual(m.panels[0], {x: 10, y: 10, w: 85, h: 190});
-                assert.deepEqual(m.panels[1], {x: 105, y: 10, w: 90, h: 190});
-                assert.deepEqual(m.panels[2], {x: 205, y: 10, w: 82, h: 190});
+                let layout = new Layout();
+                layout.pageWidth = 297;
+                layout.pageHeight = 210;
+                layout.margin = 10;
+                layout = getInsideMetrics(layout);
+                assert.equal(layout.pageWidth, 297);
+                assert.equal(layout.pageHeight, 210);
+                assert.equal(layout.margin, 10);
+                assert.deepEqual(layout.folds, [100, 200]);
+                assert.lengthOf(layout.panels, 3);
+                assert.deepEqual(layout.panels[0], {x: 10, y: 10, w: 85, h: 190});
+                assert.deepEqual(layout.panels[1], {x: 105, y: 10, w: 90, h: 190});
+                assert.deepEqual(layout.panels[2], {x: 205, y: 10, w: 82, h: 190});
             });
         });
     </script>
