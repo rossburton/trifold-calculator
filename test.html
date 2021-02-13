@@ -51,6 +51,22 @@
                 assert.deepEqual(layout.panels[1], {x: 105, y: 10, w: 90, h: 190});
                 assert.deepEqual(layout.panels[2], {x: 205, y: 10, w: 82, h: 190});
             });
+            it('inside metrics different gutter', function() {
+                let layout = new Layout();
+                layout.pageWidth = 297;
+                layout.pageHeight = 210;
+                layout.margin = 10;
+                layout.gutter = 20;
+                layout = getInsideMetrics(layout);
+                assert.equal(layout.pageWidth, 297);
+                assert.equal(layout.pageHeight, 210);
+                assert.equal(layout.margin, 10);
+                assert.deepEqual(layout.folds, [100, 200]);
+                assert.lengthOf(layout.panels, 3);
+                assert.deepEqual(layout.panels[0], {x: 10, y: 10, w: 80, h: 190});
+                assert.deepEqual(layout.panels[1], {x: 110, y: 10, w: 80, h: 190});
+                assert.deepEqual(layout.panels[2], {x: 210, y: 10, w: 77, h: 190});
+            });
         });
     </script>
     <script class="mocha-exec">

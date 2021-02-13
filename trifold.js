@@ -4,6 +4,7 @@ function Layout() {
     this.pageWidth = undefined;
     this.pageHeight = undefined;
     this.margin = undefined;
+    this.gutter = undefined;
     this.folds = null;
     this.panels = null;
 }
@@ -27,12 +28,15 @@ function getInsideMetrics(layout) {
     const thirds = layout.pageWidth / 3;
     const widePanel = thirds + 1;
     const narrowPanel = layout.pageWidth - widePanel * 2;
+    // If gutter is unset then use the margin
+    if (layout.gutter == undefined)
+        layout.gutter = layout.margin;
 
     layout.folds = [widePanel, widePanel + widePanel];
     layout.panels = [
-      { x: layout.margin, y: layout.margin, w: widePanel-layout.margin*1.5, h: layout.pageHeight - layout.margin * 2 },
-      { x: widePanel + layout.margin / 2, y: layout.margin, w: widePanel-layout.margin, h: layout.pageHeight - layout.margin * 2 },
-      { x: widePanel * 2 + layout.margin / 2, y: layout.margin, w: narrowPanel-layout.margin*1.5, h: layout.pageHeight - layout.margin * 2 }
+      { x: layout.margin, y: layout.margin, w: widePanel-layout.margin - layout.gutter/2, h: layout.pageHeight - layout.margin * 2 },
+      { x: widePanel + layout.gutter / 2, y: layout.margin, w: widePanel-layout.gutter, h: layout.pageHeight - layout.margin * 2 },
+      { x: widePanel * 2 + layout.gutter / 2, y: layout.margin, w: narrowPanel-layout.margin - layout.gutter/2, h: layout.pageHeight - layout.margin * 2 }
     ];
     return layout;
 }
