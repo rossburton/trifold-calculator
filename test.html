@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Trifold Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+        
+    <script class="mocha-init">
+      mocha.setup('bdd');
+      mocha.checkLeaks();
+    </script>
+    <script src="trifold.js"></script>
+    <script>
+        const assert = chai.assert;
+
+        describe('Trifold', function() {
+            it('outside metrics', function() {
+                    let m = getOutsideMetrics();
+                    assert.equal(m.pageWidth, 297);
+                    assert.equal(m.pageHeight, 210);
+                    assert.equal(m.margin, 10);
+                    assert.deepEqual(m.folds, [97, 197]);
+                    assert.lengthOf(m.panels, 3);
+                    assert.deepEqual(m.panels[0], {x: 10, y: 10, w: 77, h: 190});
+                    assert.deepEqual(m.panels[1], {x: 107, y: 10, w: 80, h: 190});
+                    assert.deepEqual(m.panels[2], {x: 207, y: 10, w: 80, h: 190});
+                });
+            it(' inside metrics', function() {
+                let m = getInsideMetrics();
+                assert.equal(m.pageWidth, 297);
+                assert.equal(m.pageHeight, 210);
+                assert.equal(m.margin, 10);
+                assert.deepEqual(m.folds, [100, 200]);
+                assert.lengthOf(m.panels, 3);
+                assert.deepEqual(m.panels[0], {x: 10, y: 10, w: 85, h: 190});
+                assert.deepEqual(m.panels[1], {x: 105, y: 10, w: 90, h: 190});
+                assert.deepEqual(m.panels[2], {x: 205, y: 10, w: 82, h: 190});
+            });
+        });
+    </script>
+    <script class="mocha-exec">
+      mocha.run();
+    </script>
+  </body>
+</html>
