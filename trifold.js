@@ -1,5 +1,6 @@
 'use strict';
 
+/* TODO constructors to pass the initial ones easily */
 function Layout() {
     this.pageWidth = undefined;
     this.pageHeight = undefined;
@@ -8,6 +9,15 @@ function Layout() {
     this.gutter = undefined;
     this.folds = null;
     this.panels = null;
+}
+
+function checkLayout(layout) {
+    if (layout.pageWidth == undefined)
+        throw "Page width not set";
+    if (layout.pageHeight == undefined)
+        throw "Page height not set";
+    if (layout.vmargin == undefined && layout.hmargin == undefined)
+        throw "At least one margin not set";
 }
 
 function getOutsideMetrics(layout) {

@@ -20,7 +20,54 @@
     <script>
         const assert = chai.assert;
 
-        describe('Trifold', function() {
+        describe('checkLayout', function() {
+            it('Empty', function() {
+                let layout = new Layout();
+                assert.throws(() => checkLayout(layout));
+            });
+            it('Populated', function() {
+                let layout = new Layout();
+                layout.pageWidth = 100;
+                layout.pageHeight = 100;
+                layout.vmargin = 10;
+                layout.hmargin = 10;
+                assert.doesNotThrow(() => checkLayout(layout));
+            });
+            it('Missing height', function() {
+                let layout = new Layout();
+                layout.pageWidth = 100;
+                layout.vmargin = 10;
+                layout.hmargin = 10;
+                assert.throws(() => checkLayout(layout));
+            });
+            it('Missing width', function() {
+                let layout = new Layout();
+                layout.pageHeight = 100;
+                layout.vmargin = 10;
+                layout.hmargin = 10;
+                assert.throws(() => checkLayout(layout));
+            });
+            it('Missing margin', function() {
+                let layout = new Layout();
+                layout.pageWidth = 100;
+                layout.pageHeight = 100;
+                assert.throws(() => checkLayout(layout));
+            });
+            it('One margin', function() {
+                let layout = new Layout();
+                layout.pageHeight = 100;
+                layout.pageWidth = 100;
+                layout.vmargin = 10;
+                assert.doesNotThrow(() => checkLayout(layout));
+
+                layout = new Layout();
+                layout.pageHeight = 100;
+                layout.pageWidth = 100;
+                layout.hmargin = 10;
+                assert.doesNotThrow(() => checkLayout(layout));
+            });
+        });
+        describe('Layout', function() {
             it('outside metrics', function() {
                     let layout = new Layout();
                     layout.pageWidth = 297;
