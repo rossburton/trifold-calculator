@@ -29,11 +29,11 @@
 
       function describe(layout) {
         let s = "";
-        s += `Folds at ${layout.folds.join(', ')}. `;
+        s += `Folds at ${layout.folds.map(s => s + 'mm').join(', ')}. `;
         let a = layout.panels.flatMap(p => [p.x, p.x + p.w]);
-        s += `Vertical rulers at ${a.join(', ')}. `;
+        s += `Vertical rulers at ${a.map(s => s + 'mm').join(', ')}. `;
         let p = layout.panels[0]
-        s += `Horizontal rulers at ${p.y}, ${p.y + p.h}.`;
+        s += `Horizontal rulers at ${p.y}mm, ${p.y + p.h}mm.`;
         return s;
       }
 
