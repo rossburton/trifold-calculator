@@ -20,6 +20,27 @@
     <script>
         const assert = chai.assert;
 
+        describe('constructor', function() {
+            it('constructor', function() {
+                function check(pw, ph, vm, hm, g) {
+                    assert.equal(layout.pageWidth, pw);
+                    assert.equal(layout.pageHeight, ph);
+                    assert.equal(layout.vmargin, vm);
+                    assert.equal(layout.hmargin, hm);
+                    assert.equal(layout.gutter, g);
+                }
+                let layout = new Layout();
+                check();
+                layout = new Layout(100, 150);
+                check(100, 150);
+                layout = new Layout(100, 150, 10);
+                check(100, 150, 10, 10, 10);
+                layout = new Layout(100, 150, 10, 15);
+                check(100, 150, 10, 15, 15);
+                layout = new Layout(100, 150, 10, 15, 30);
+                check(100, 150, 10, 15, 30);
+            });
+        });
         describe('checkLayout', function() {
             it('Empty', function() {
                 let layout = new Layout();

@@ -1,12 +1,11 @@
 'use strict';
 
-/* TODO constructors to pass the initial ones easily */
-function Layout() {
-    this.pageWidth = undefined;
-    this.pageHeight = undefined;
-    this.vmargin = undefined;
-    this.hmargin = undefined;
-    this.gutter = undefined;
+function Layout(pageWidth, pageHeight, vmargin, hmargin, gutter) {
+    this.pageWidth = pageWidth;
+    this.pageHeight = pageHeight;
+    this.vmargin = vmargin;
+    this.hmargin = hmargin ?? vmargin;
+    this.gutter = gutter ?? this.hmargin;
     this.folds = null;
     this.panels = null;
 }
