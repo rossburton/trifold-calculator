@@ -33,7 +33,7 @@
         let a = layout.panels.flatMap(p => [p.x, p.x + p.w]);
         s += `Vertical rulers at ${a.join(', ')}. `;
         let p = layout.panels[0]
-        s += `Vertical rulers at ${p.y}, ${p.y + p.h}.`;
+        s += `Horizontal rulers at ${p.y}, ${p.y + p.h}.`;
         return s;
       }
 
