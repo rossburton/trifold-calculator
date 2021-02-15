@@ -58,11 +58,10 @@ function drawMetrics(element, layout) {
   draw.clear();
   draw.size(2*layout.pageWidth, 2*layout.pageHeight).viewbox(0, 0, layout.pageWidth + 5 , layout.pageHeight + 5)
 
-  /* TODO Use CSS. Dotted grey for folds, solid grey for margins, drop shadow on outline */
   for (let fold of layout.folds)
-    draw.line(fold, 0, fold, layout.pageHeight).stroke('#aaa');
+    draw.line(fold, 0, fold, layout.pageHeight).attr({'stroke': '#aaa', 'stroke-width': '0.5', 'stroke-dasharray': '5,5'});
   for (let p of layout.panels)
-    draw.rect(p.w, p.h).move(p.x, p.y).fill('transparent').stroke('#aaa');
+    draw.rect(p.w, p.h).move(p.x, p.y).fill('transparent').attr({'stroke': '#aaa', 'stroke-width': '0.5', 'stroke-dasharray': '2,2'});
   /* TODO off-by-one with the origin again. transform to offset everything 5px in for the shadow? */
-  draw.rect(layout.pageWidth, layout.pageHeight).move(0, 0).fill('transparent').stroke('#000');
+  draw.rect(layout.pageWidth, layout.pageHeight).move(0, 0).attr({'fill': 'transparent', 'stroke': '#000', 'stroke-width': '1'});
 }
