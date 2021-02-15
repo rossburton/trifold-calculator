@@ -1,5 +1,11 @@
 'use strict';
 
+SVG.extend(SVG.Element, {
+    addOutline: function() {
+      this.clone().attr({'stroke': 'white', 'stroke-width': '8', 'stroke-linejoin': 'round'}).insertBefore(this);
+    }
+  });
+
 function Layout(pageWidth, pageHeight, vmargin, hmargin, gutter) {
     this.pageWidth = pageWidth;
     this.pageHeight = pageHeight;
@@ -59,11 +65,26 @@ function drawMetrics(element, layout) {
   svg.size(2*layout.pageWidth, 2*layout.pageHeight).viewbox(0, 0, layout.pageWidth + 5 , layout.pageHeight + 5)
 
   let container = svg.nested()
-  for (let fold of layout.folds)
-    container.line(fold, 0, fold, layout.pageHeight).attr({'stroke': '#aaa', 'stroke-width': '0.5', 'stroke-dasharray': '5,5'});
-  for (let p of layout.panels)
-    container.rect(p.w, p.h).move(p.x, p.y).fill('transparent').attr({'stroke': '#aaa', 'stroke-width': '0.5', 'stroke-dasharray': '2,2'});
-  container.rect(layout.pageWidth, layout.pageHeight).move(0, 0).attr({'fill': 'transparent', 'stroke': '#000', 'stroke-width': '1'});
+  for (let fold of layout.folds) {
+    container.line(fold, 0, fold, layout.pageHeight).attr({'stroke': 'grey', 'stroke-width': '0.5', 'stroke-dasharray': '5,5'});
+    container.plain(`${fold}mm`).font({family: 'sans-serif', size: 7}).center(fold, layout.pageHeight/3).rotate(90).addOutline();
+  }
+
+  for (let p of layout.panels) {
+    container.rect(p.w, p.h).move(p.x, p.y).fill('transparent').attr({'stroke': 'grey', 'stroke-width': '0.5', 'stroke-dasharray': '2,2'});
+
+    /* Draw just the vertical rulers here so we don't repeat the horizontal ones */
+    container.plain(`${p.x}mm`).font({family: 'sans-serif', size: 7}).center(p.x, layout.pageHeight/2).rotate(90).addOutline();
+    container.plain(`${p.x+p.w}mm`).font({family: 'sans-serif', size: 7}).center(p.x+p.w, layout.pageHeight/2).rotate(90).addOutline();
+  }
+  {
+    /* Now draw the horizontal rulers once */
+    let p = layout.panels[1];
+    container.plain(`${p.y}mm`).font({family: 'sans-serif', size: 7}).center(p.x + p.w/2, p.y).addOutline();
+    container.plain(`${p.y+p.h}mm`).font({family: 'sans-serif', size: 7}).center(p.x + p.w/2, p.y + p.h).addOutline();
+  }
+
+  container.rect(layout.pageWidth, layout.pageHeight).move(0, 0).attr({'fill': 'transparent', 'stroke': 'black', 'stroke-width': '1'});
 
   container.move(5, 5);
 }
