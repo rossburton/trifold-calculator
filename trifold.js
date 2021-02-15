@@ -54,14 +54,16 @@ function getInsideMetrics(layout) {
 }
 
 function drawMetrics(element, layout) {
-  let draw = SVG(element);
-  draw.clear();
-  draw.size(2*layout.pageWidth, 2*layout.pageHeight).viewbox(0, 0, layout.pageWidth + 5 , layout.pageHeight + 5)
+  let svg = SVG(element);
+  svg.clear();
+  svg.size(2*layout.pageWidth, 2*layout.pageHeight).viewbox(0, 0, layout.pageWidth + 5 , layout.pageHeight + 5)
 
+  let container = svg.nested()
   for (let fold of layout.folds)
-    draw.line(fold, 0, fold, layout.pageHeight).attr({'stroke': '#aaa', 'stroke-width': '0.5', 'stroke-dasharray': '5,5'});
+    container.line(fold, 0, fold, layout.pageHeight).attr({'stroke': '#aaa', 'stroke-width': '0.5', 'stroke-dasharray': '5,5'});
   for (let p of layout.panels)
-    draw.rect(p.w, p.h).move(p.x, p.y).fill('transparent').attr({'stroke': '#aaa', 'stroke-width': '0.5', 'stroke-dasharray': '2,2'});
-  /* TODO off-by-one with the origin again. transform to offset everything 5px in for the shadow? */
-  draw.rect(layout.pageWidth, layout.pageHeight).move(0, 0).attr({'fill': 'transparent', 'stroke': '#000', 'stroke-width': '1'});
+    container.rect(p.w, p.h).move(p.x, p.y).fill('transparent').attr({'stroke': '#aaa', 'stroke-width': '0.5', 'stroke-dasharray': '2,2'});
+  container.rect(layout.pageWidth, layout.pageHeight).move(0, 0).attr({'fill': 'transparent', 'stroke': '#000', 'stroke-width': '1'});
+
+  container.move(5, 5);
 }
