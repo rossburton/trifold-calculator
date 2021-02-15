@@ -90,11 +90,7 @@
         });
         describe('Layout', function() {
             it('outside metrics', function() {
-                    let layout = new Layout();
-                    layout.pageWidth = 297;
-                    layout.pageHeight = 210;
-                    layout.hmargin = 10;
-                    layout.vmargin = 10;
+                    let layout = new Layout(297, 210, 10, 10);
                     layout = getOutsideMetrics(layout);
                     assert.equal(layout.pageWidth, 297);
                     assert.equal(layout.pageHeight, 210);
@@ -107,11 +103,7 @@
                     assert.deepEqual(layout.panels[2], {x: 207, y: 10, w: 80, h: 190});
                 });
             it('inside metrics', function() {
-                let layout = new Layout();
-                layout.pageWidth = 297;
-                layout.pageHeight = 210;
-                layout.hmargin = 10;
-                layout.vmargin = 10;
+                let layout = new Layout(297, 210, 10, 10);
                 layout = getInsideMetrics(layout);
                 assert.equal(layout.pageWidth, 297);
                 assert.equal(layout.pageHeight, 210);
@@ -124,12 +116,7 @@
                 assert.deepEqual(layout.panels[2], {x: 205, y: 10, w: 82, h: 190});
             });
             it('inside metrics different hmargin', function() {
-                let layout = new Layout();
-                layout.pageWidth = 297;
-                layout.pageHeight = 210;
-                layout.hmargin = 5;
-                layout.vmargin = 10;
-                layout.gutter = 10;
+                let layout = new Layout(297, 210, 10, 5, 10);
                 layout = getInsideMetrics(layout);
                 assert.equal(layout.pageWidth, 297);
                 assert.equal(layout.pageHeight, 210);
@@ -142,12 +129,7 @@
                 assert.deepEqual(layout.panels[2], {x: 205, y: 10, w: 87, h: 190});
             });
             it('inside metrics different gutter', function() {
-                let layout = new Layout();
-                layout.pageWidth = 297;
-                layout.pageHeight = 210;
-                layout.hmargin = 10;
-                layout.vmargin = 10;
-                layout.gutter = 20;
+                let layout = new Layout(297, 210, 10, 10, 20);
                 layout = getInsideMetrics(layout);
                 assert.equal(layout.pageWidth, 297);
                 assert.equal(layout.pageHeight, 210);
