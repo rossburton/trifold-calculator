@@ -11,12 +11,14 @@
       <label>Gutter: <input id="gutter-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
     </div>
     <div>
-      <svg id="diagram-outside"></svg>
+      <h1>Outside</h1>
       <p id="desc-outside"></p>
+      <svg id="diagram-outside"></svg>
     </div>
     <div>
-      <svg id="diagram-inside"></svg>
+      <h1>Inside</h1>
       <p id="desc-inside"></p>
+      <svg id="diagram-inside"></svg>
     </div>
     <script>
       const hmargin_input = document.getElementById('margin-horizontal-input');
@@ -26,8 +28,13 @@
       const desc_inside = document.getElementById('desc-inside');
 
       function describe(layout) {
+        let s = "";
+        s += `Folds at ${layout.folds.join(', ')}. `;
         let a = layout.panels.flatMap(p => [p.x, p.x + p.w]);
-        return `Folds at ${layout.folds.join(', ')}. Vertical rulers at ${a.join(', ')}`;
+        s += `Vertical rulers at ${a.join(', ')}. `;
+        let p = layout.panels[0]
+        s += `Vertical rulers at ${p.y}, ${p.y + p.h}.`;
+        return s;
       }
 
       function draw() {
