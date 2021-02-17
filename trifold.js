@@ -59,7 +59,15 @@ function getInsideMetrics(layout) {
     return layout;
 }
 
-function drawMetrics(element, layout) {
+function drawMetrics(element, layout, outside) {
+  if (outside == undefined)
+    outside = true;
+
+  const labelMap = [
+    ["Inside Left", "Inside Middle", "Inside Right"],
+    ["Inside Cover", "Back Cover", "Front Cover"]
+  ];
+
   let svg = SVG(element);
   svg.clear();
   svg.size(2*layout.pageWidth, 2*layout.pageHeight).viewbox(0, 0, layout.pageWidth + 5 , layout.pageHeight + 5)
@@ -70,12 +78,13 @@ function drawMetrics(element, layout) {
     container.plain(`${fold}mm`).font({family: 'sans-serif', size: 7}).center(fold, layout.pageHeight/3).rotate(90).addOutline();
   }
 
-  for (let p of layout.panels) {
+  for (const [index, p] of layout.panels.entries()) {
     container.rect(p.w, p.h).move(p.x, p.y).fill('transparent').attr({'stroke': 'grey', 'stroke-width': '0.5', 'stroke-dasharray': '2,2'});
 
     /* Draw just the vertical rulers here so we don't repeat the horizontal ones */
     container.plain(`${p.x}mm`).font({family: 'sans-serif', size: 7}).center(p.x, layout.pageHeight/2).rotate(90).addOutline();
     container.plain(`${p.x+p.w}mm`).font({family: 'sans-serif', size: 7}).center(p.x+p.w, layout.pageHeight/2).rotate(90).addOutline();
+    container.plain(labelMap[outside ? 1 : 0][index]).font({family: 'serif', size: 12}).cx(p.x + p.w/2).y(p.y+15).addOutline();
   }
   {
     /* Now draw the horizontal rulers once */

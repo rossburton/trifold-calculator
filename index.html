@@ -45,9 +45,9 @@
         layout.vmargin = parseInt(vmargin_input.value, 10);
         layout.gutter = parseInt(gutter_input.value, 10);
 
-        drawMetrics('#diagram-outside', getOutsideMetrics(layout));
+        drawMetrics('#diagram-outside', getOutsideMetrics(layout), true);
         desc_outside.innerHTML = describe(layout);
-        drawMetrics('#diagram-inside', getInsideMetrics(layout));
+        drawMetrics('#diagram-inside', getInsideMetrics(layout), false);
         desc_inside.innerHTML = describe(layout);
 
         //let s = `Folds at ${layout.folds.join(', ')}.`;
