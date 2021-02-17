@@ -81,16 +81,16 @@ function drawMetrics(element, layout, outside) {
   for (const [index, p] of layout.panels.entries()) {
     container.rect(p.w, p.h).move(p.x, p.y).fill('transparent').attr({'stroke': 'grey', 'stroke-width': '0.5', 'stroke-dasharray': '2,2'});
 
+    /* Only draw the horizontal rulers on the middle panel */
+    if (index == 1) {
+      container.plain(`${p.y}mm`).font({family: 'sans-serif', size: 7}).center(p.x + p.w/2, p.y).addOutline();
+      container.plain(`${p.y+p.h}mm`).font({family: 'sans-serif', size: 7}).center(p.x + p.w/2, p.y + p.h).addOutline();
+    }
+
     /* Draw just the vertical rulers here so we don't repeat the horizontal ones */
     container.plain(`${p.x}mm`).font({family: 'sans-serif', size: 7}).center(p.x, layout.pageHeight/2).rotate(90).addOutline();
     container.plain(`${p.x+p.w}mm`).font({family: 'sans-serif', size: 7}).center(p.x+p.w, layout.pageHeight/2).rotate(90).addOutline();
     container.plain(labelMap[outside ? 1 : 0][index]).font({family: 'serif', size: 12}).cx(p.x + p.w/2).y(p.y+15).addOutline();
-  }
-  {
-    /* Now draw the horizontal rulers once */
-    let p = layout.panels[1];
-    container.plain(`${p.y}mm`).font({family: 'sans-serif', size: 7}).center(p.x + p.w/2, p.y).addOutline();
-    container.plain(`${p.y+p.h}mm`).font({family: 'sans-serif', size: 7}).center(p.x + p.w/2, p.y + p.h).addOutline();
   }
 
   container.rect(layout.pageWidth, layout.pageHeight).move(0, 0).attr({'fill': 'transparent', 'stroke': 'black', 'stroke-width': '1'});
