@@ -1,3 +1,8 @@
+/*
+* Copyright (C) 2021 Ross Burton
+* Licensed under the MIT license
+*/
+
 'use strict';
 
 SVG.extend(SVG.Element, {
