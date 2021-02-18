@@ -30,6 +30,15 @@ function checkLayout(layout) {
         throw "At least one margin not set";
 }
 
+function round(layout) {
+  layout.folds = layout.folds.map(i => Math.round(i));
+  for (let p of layout.panels) {
+    for (const i in p) {
+      p[i] = Math.round(p[i]);
+    }
+  }
+}
+
 function getOutsideMetrics(layout) {
     /* TODO sanity check input */
     const thirds = layout.pageWidth / 3;
@@ -37,12 +46,18 @@ function getOutsideMetrics(layout) {
     const narrowPanel = layout.pageWidth - widePanel * 2;
 
     /* TODO: Can likely generalise this logic further to just iterate over the folds */
+
+    /* Calculate everything in float first for accuracy */
     layout.folds = [narrowPanel, narrowPanel + widePanel];
     layout.panels = [
       { x: layout.hmargin, y: layout.vmargin, w: narrowPanel - layout.hmargin * 2, h: layout.pageHeight - layout.vmargin * 2 },
       { x: narrowPanel + layout.hmargin, y: layout.vmargin, w: widePanel - layout.hmargin * 2, h: layout.pageHeight - layout.vmargin * 2 },
       { x: narrowPanel + widePanel + layout.hmargin, y: layout.vmargin, w: widePanel - layout.hmargin * 2, h: layout.pageHeight - layout.vmargin * 2 }
     ];
+
+    /* Then round to whole units */
+    round(layout);
+
     return layout;
 }
 
@@ -55,12 +70,17 @@ function getInsideMetrics(layout) {
     if (layout.gutter == undefined)
         layout.gutter = layout.hmargin || layout.vmargin;
 
+    /* Calculate everything in float first for accuracy */
     layout.folds = [widePanel, widePanel + widePanel];
     layout.panels = [
       { x: layout.hmargin, y: layout.vmargin, w: widePanel-layout.hmargin - layout.gutter/2, h: layout.pageHeight - layout.vmargin * 2 },
       { x: widePanel + layout.gutter / 2, y: layout.vmargin, w: widePanel-layout.gutter, h: layout.pageHeight - layout.vmargin * 2 },
       { x: widePanel * 2 + layout.gutter / 2, y: layout.vmargin, w: narrowPanel-layout.hmargin - layout.gutter/2, h: layout.pageHeight - layout.vmargin * 2 }
     ];
+
+    /* Then round to whole units */
+    round(layout);
+
     return layout;
 }
 
