@@ -9,6 +9,8 @@
       <img src="layout.svg" width="400">
     </div>
     <div>
+      <label>Page Width: <input id="page-width-input" type="number" min="100" max="500" value="297" oninput="draw();"/></label>
+      <label>Page Height: <input id="page-height-input" type="number" min="100" max="500" value="210" oninput="draw();"/></label>
       <label>Vertical Margin: <input id="margin-vertical-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
       <label>Horizontal Margin: <input id="margin-horizontal-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
       <label>Gutter: <input id="gutter-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
@@ -24,6 +26,8 @@
       <svg id="diagram-inside"></svg>
     </div>
     <script>
+      const pagew_input = document.getElementById('page-width-input');
+      const pageh_input = document.getElementById('page-height-input');
       const hmargin_input = document.getElementById('margin-horizontal-input');
       const vmargin_input = document.getElementById('margin-vertical-input');
       const gutter_input = document.getElementById('gutter-input');
@@ -42,8 +46,8 @@
 
       function draw() {
         let layout = new Layout();
-        layout.pageWidth = 297;
-        layout.pageHeight = 210;
+        layout.pageWidth = parseInt(pagew_input.value, 10);
+        layout.pageHeight = parseInt(pageh_input.value, 10);
         layout.hmargin = parseInt(hmargin_input.value, 10);
         layout.vmargin = parseInt(vmargin_input.value, 10);
         layout.gutter = parseInt(gutter_input.value, 10);
