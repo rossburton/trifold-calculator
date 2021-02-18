@@ -1,30 +1,61 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.0.16/svg.min.js" integrity="sha512-p3Tp2zn+wApBreZCgRkmMwnfpN8MUPXzzOihXx7iGYXqE7t6m9drY8HeyMeeFuDWiTFKrGUrq3jpbT0vX6zY/Q==" crossorigin="anonymous"></script>
     <script src="trifold.js"></script>
   </head>
   <body onload="draw();">
-    <div>
-      <img src="layout.svg" width="400">
-    </div>
-    <div>
-      <label>Page Width: <input id="page-width-input" type="number" min="100" max="500" value="297" oninput="draw();"/></label>
-      <label>Page Height: <input id="page-height-input" type="number" min="100" max="500" value="210" oninput="draw();"/></label>
-      <label>Vertical Margin: <input id="margin-vertical-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
-      <label>Horizontal Margin: <input id="margin-horizontal-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
-      <label>Gutter: <input id="gutter-input" type="number" min="0" max="30" value="10" oninput="draw();"/></label>
-    </div>
-    <div>
-      <h1>Outside</h1>
-      <p id="desc-outside"></p>
+    <section class="section">
+      <h1 class="title is-1">Trifold Calculator</h1>
+
+      <div class="columns">
+        <div class="column is-one-third">
+          <div class="field">
+            <label class="label">Page Width</label>
+            <div class="control">
+              <input class="input" id="page-width-input" type="number" min="100" max="500" value="297" oninput="draw();"/>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Page Height</label>
+            <div class="control">
+              <input class="input" id="page-height-input" type="number" min="100" max="500" value="210" oninput="draw();"/>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Vertical Margin</label>
+            <div class="control">
+              <input class="input" id="margin-vertical-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Horizontal Margin</label>
+            <div class="control">
+              <input class="input" id="margin-horizontal-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Gutter</label>
+            <div class="control">
+              <input class="input" id="gutter-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <center>
+            <img src="layout.svg" width="400">
+          </center>
+        </div>
+      </div>
+
       <svg id="diagram-outside"></svg>
-    </div>
-    <div>
-      <h1>Inside</h1>
-      <p id="desc-inside"></p>
       <svg id="diagram-inside"></svg>
-    </div>
+      <p><strong>Outside:</strong> <span id="desc-outside"></p>
+      <p><strong>Inside:</strong> <span id="desc-inside"></p>
+    </section>
+
     <script>
       const pagew_input = document.getElementById('page-width-input');
       const pageh_input = document.getElementById('page-height-input');
@@ -36,11 +67,11 @@
 
       function describe(layout) {
         let s = "";
-        s += `Folds at ${layout.folds.map(s => s + 'mm').join(', ')}. `;
+        s += `Folds at ${layout.folds.map(s => s + 'mm').join(' and ')}. `;
         let a = layout.panels.flatMap(p => [p.x, p.x + p.w]);
         s += `Vertical rulers at ${a.map(s => s + 'mm').join(', ')}. `;
         let p = layout.panels[0]
-        s += `Horizontal rulers at ${p.y}mm, ${p.y + p.h}mm.`;
+        s += `Horizontal rulers at ${p.y}mm and ${p.y + p.h}mm.`;
         return s;
       }
 
@@ -56,9 +87,6 @@
         desc_outside.innerHTML = describe(layout);
         drawMetrics('#diagram-inside', getInsideMetrics(layout), false);
         desc_inside.innerHTML = describe(layout);
-
-        //let s = `Folds at ${layout.folds.join(', ')}.`;
-        //console.log(s);
       }
     </script>
   </body>
