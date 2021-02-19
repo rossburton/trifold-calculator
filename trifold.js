@@ -66,9 +66,6 @@ function getInsideMetrics(layout) {
     const thirds = layout.pageWidth / 3;
     const widePanel = thirds + 1;
     const narrowPanel = layout.pageWidth - widePanel * 2;
-    // If gutter is unset then use the margin
-    if (layout.gutter == undefined)
-        layout.gutter = layout.hmargin || layout.vmargin;
 
     /* Calculate everything in float first for accuracy */
     layout.folds = [widePanel, widePanel + widePanel];
