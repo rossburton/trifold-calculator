@@ -157,7 +157,7 @@
         layout.pageHeight = parseInt(pageh_input.value, 10);
         layout.hmargin = parseInt(hmargin_input.value, 10);
         layout.vmargin = parseInt(vmargin_input.value, 10);
-        layout.gutter = gutter_toggle.checked ? parseInt(gutter_input.value, 10) : undefined;
+        layout.gutter = gutter_toggle.checked ? parseInt(gutter_input.value, 10) : layout.hmargin * 2;
 
         drawMetrics('#diagram-outside', getOutsideMetrics(layout), true);
         desc_outside.innerHTML = describe(layout);
