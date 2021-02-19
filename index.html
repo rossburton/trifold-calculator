@@ -6,15 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.0.16/svg.min.js" integrity="sha512-p3Tp2zn+wApBreZCgRkmMwnfpN8MUPXzzOihXx7iGYXqE7t6m9drY8HeyMeeFuDWiTFKrGUrq3jpbT0vX6zY/Q==" crossorigin="anonymous"></script>
     <script src="trifold.js"></script>
+    <style>
+      #options {
+        position: sticky;
+        display: inline-block;
+        vertical-align: top;
+        max-height: 100vh;
+        overflow-y: auto;
+        width: 20em;
+        top: 0;
+        bottom: 0;
+        padding: 2em;
+      }
+
+      #content {
+        display: inline-block;
+      }
+    </style>
   </head>
   <body onload="changepaper();">
     <section class="section">
       <h1 class="title is-1">Trifold Calculator</h1>
-
-      <div class="columns">
-        <div class="column is-one-third">
-          <div class="field">
-            <label class="label">Page Size</label>
+<div class="columns">
+      <aside id="options">
+        <div class="field">
+          <label class="label">Page Size</label>
           <div class="select">
             <select id="paper-select" oninput="changepaper();">
               <option data-width="297" data-height="210" value="a4" selected>A4 (297mm × 210mm)</option>
@@ -37,36 +53,37 @@
             </div>
           </div>
         </fieldset>
-          <div class="field">
-            <label class="label">Vertical Margin</label>
-            <div class="control">
-              <input class="input" id="margin-vertical-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Horizontal Margin</label>
-            <div class="control">
-              <input class="input" id="margin-horizontal-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Gutter</label>
-            <div class="control">
-              <input class="input" id="gutter-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
-            </div>
+        <div class="field">
+          <label class="label">Vertical Margin</label>
+          <div class="control">
+            <input class="input" id="margin-vertical-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
           </div>
         </div>
-        <div class="column">
-          <center>
-            <img src="layout.svg" width="400">
-          </center>
+        <div class="field">
+          <label class="label">Horizontal Margin</label>
+          <div class="control">
+            <input class="input" id="margin-horizontal-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
+          </div>
         </div>
+        <div class="field">
+          <label class="label">Gutter</label>
+          <div class="control">
+            <input class="input" id="gutter-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
+          </div>
+        </div>
+      </aside>
+      <div class="column content">
+        <p><img src="layout.svg" width="400"></p>
+        <p>
+          <svg id="diagram-outside"></svg>
+        </p>
+        <p>
+          <svg id="diagram-inside"></svg>
+        </p>
+        <p><strong>Outside:</strong> <span id="desc-outside"></p>
+        <p><strong>Inside:</strong> <span id="desc-inside"></p>
       </div>
-
-      <svg id="diagram-outside"></svg>
-      <svg id="diagram-inside"></svg>
-      <p><strong>Outside:</strong> <span id="desc-outside"></p>
-      <p><strong>Inside:</strong> <span id="desc-inside"></p>
+    </div>
     </section>
 
     <script>
