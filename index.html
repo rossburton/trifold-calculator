@@ -24,7 +24,7 @@
       }
     </style>
   </head>
-  <body onload="changepaper();">
+  <body onload="guttertoggle(); changepaper();">
     <section class="section">
       <h1 class="title is-1">Trifold Calculator</h1>
 <div class="columns">
@@ -78,14 +78,22 @@
           </div>
         </div>
         <div class="field">
+          <label class="checkbox">
+            <input type="checkbox" id="gutter-toggle" oninput="guttertoggle();">
+            Control inside gutter independently?
+          </label>
+        </div>
+        <fieldset id="gutter-fieldset">
+          <div class="field">
           <label class="label">Gutter</label>
           <div class="field has-addons">
             <div class="control is-expanded">
-              <input class="input" id="gutter-input" type="number" min="0" max="30" value="10" oninput="draw();"/>
+              <input class="input" id="gutter-input" type="number" min="0" max="60" value="20" oninput="draw();"/>
             </div>
             <div class='control'><span class="button is-static">mm</span></div>
           </div>
         </div>
+        </fieldset>
       </aside>
       <div class="column content">
         <p><img src="layout.svg" width="400"></p>
@@ -108,6 +116,8 @@
       const pageh_input = document.getElementById('page-height-input');
       const hmargin_input = document.getElementById('margin-horizontal-input');
       const vmargin_input = document.getElementById('margin-vertical-input');
+      const gutter_toggle = document.getElementById('gutter-toggle');
+      const gutter_fieldset = document.getElementById('gutter-fieldset');
       const gutter_input = document.getElementById('gutter-input');
       const desc_outside = document.getElementById('desc-outside');
       const desc_inside = document.getElementById('desc-inside');
@@ -120,6 +130,12 @@
         let p = layout.panels[0]
         s += `Horizontal rulers at ${p.y}mm and ${p.y + p.h}mm.`;
         return s;
+      }
+
+      function guttertoggle() {
+        gutter_fieldset.disabled = !gutter_toggle.checked;
+
+        draw();
       }
 
       function changepaper() {
@@ -141,7 +157,7 @@
         layout.pageHeight = parseInt(pageh_input.value, 10);
         layout.hmargin = parseInt(hmargin_input.value, 10);
         layout.vmargin = parseInt(vmargin_input.value, 10);
-        layout.gutter = parseInt(gutter_input.value, 10);
+        layout.gutter = gutter_toggle.checked ? parseInt(gutter_input.value, 10) : undefined;
 
         drawMetrics('#diagram-outside', getOutsideMetrics(layout), true);
         desc_outside.innerHTML = describe(layout);
