@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.0.16/svg.min.js" integrity="sha512-p3Tp2zn+wApBreZCgRkmMwnfpN8MUPXzzOihXx7iGYXqE7t6m9drY8HeyMeeFuDWiTFKrGUrq3jpbT0vX6zY/Q==" crossorigin="anonymous"></script>
     <script src="trifold.js"></script>
   </head>
-  <body onload="draw();">
+  <body onload="changepaper();">
     <section class="section">
       <h1 class="title is-1">Trifold Calculator</h1>
 
       <div class="columns">
         <div class="column is-one-third">
+          <div class="field">
+            <label class="label">Page Size</label>
+          <div class="select">
+            <select id="paper-select" oninput="changepaper();">
+              <option data-width="297" data-height="210" value="a4" selected>A4 (297mm × 210mm)</option>
+              <option data-width="279" data-height="216" value="letter">Letter (8.5″ × 11″)</option>
+              <option data-custom="true" value="custom">Custom</option>
+            </select>
+          </div>
+        </div>
+        <fieldset id="size-fieldset">
           <div class="field">
             <label class="label">Page Width</label>
             <div class="control">
@@ -24,6 +36,7 @@
               <input class="input" id="page-height-input" type="number" min="100" max="500" value="210" oninput="draw();"/>
             </div>
           </div>
+        </fieldset>
           <div class="field">
             <label class="label">Vertical Margin</label>
             <div class="control">
@@ -57,6 +70,8 @@
     </section>
 
     <script>
+      const paper_select = document.getElementById('paper-select');
+      const size_fieldset = document.getElementById('size-fieldset');
       const pagew_input = document.getElementById('page-width-input');
       const pageh_input = document.getElementById('page-height-input');
       const hmargin_input = document.getElementById('margin-horizontal-input');
@@ -73,6 +88,19 @@
         let p = layout.panels[0]
         s += `Horizontal rulers at ${p.y}mm and ${p.y + p.h}mm.`;
         return s;
+      }
+
+      function changepaper() {
+        const data = paper_select.options[paper_select.selectedIndex].dataset;
+        if (data.custom) {
+          size_fieldset.removeAttribute('disabled');
+        } else {
+          size_fieldset.setAttribute('disabled', '');
+          pagew_input.value = data.width;
+          pageh_input.value = data.height;
+        }
+
+        draw();
       }
 
       function draw() {
