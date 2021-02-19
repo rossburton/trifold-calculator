@@ -16,7 +16,12 @@ function Layout(pageWidth, pageHeight, vmargin, hmargin, gutter) {
     this.pageHeight = pageHeight;
     this.vmargin = vmargin;
     this.hmargin = hmargin ?? vmargin;
-    this.gutter = gutter ?? this.hmargin;
+    if (gutter == undefined) {
+      if (this.hmargin != undefined)
+        this.gutter = this.hmargin * 2;
+    } else {
+      this.gutter = gutter;
+    }
     this.folds = null;
     this.panels = null;
 }

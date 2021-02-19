@@ -34,9 +34,9 @@
                 layout = new Layout(100, 150);
                 check(100, 150);
                 layout = new Layout(100, 150, 10);
-                check(100, 150, 10, 10, 10);
+                check(100, 150, 10, 10, 20);
                 layout = new Layout(100, 150, 10, 15);
-                check(100, 150, 10, 15, 15);
+                check(100, 150, 10, 15, 30);
                 layout = new Layout(100, 150, 10, 15, 30);
                 check(100, 150, 10, 15, 30);
             });
@@ -103,7 +103,7 @@
                     assert.deepEqual(layout.panels[2], {x: 207, y: 10, w: 80, h: 190});
                 });
             it('inside metrics', function() {
-                let layout = new Layout(297, 210, 10, 10);
+                let layout = new Layout(297, 210, 10, 10, 10);
                 layout = getInsideMetrics(layout);
                 assert.equal(layout.pageWidth, 297);
                 assert.equal(layout.pageHeight, 210);
@@ -127,6 +127,20 @@
                 assert.deepEqual(layout.panels[0], {x: 5, y: 10, w: 90, h: 190});
                 assert.deepEqual(layout.panels[1], {x: 105, y: 10, w: 90, h: 190});
                 assert.deepEqual(layout.panels[2], {x: 205, y: 10, w: 87, h: 190});
+            });
+            it('inside metrics no gutter', function() {
+                let layout = new Layout(297, 210, 10, 10);
+                layout = getInsideMetrics(layout);
+                assert.equal(layout.pageWidth, 297);
+                assert.equal(layout.pageHeight, 210);
+                assert.equal(layout.hmargin, 10);
+                assert.equal(layout.vmargin, 10);
+                assert.equal(layout.gutter, 20);
+                assert.deepEqual(layout.folds, [100, 200]);
+                assert.lengthOf(layout.panels, 3);
+                assert.deepEqual(layout.panels[0], {x: 10, y: 10, w: 80, h: 190});
+                assert.deepEqual(layout.panels[1], {x: 110, y: 10, w: 80, h: 190});
+                assert.deepEqual(layout.panels[2], {x: 210, y: 10, w: 77, h: 190});
             });
             it('inside metrics different gutter', function() {
                 let layout = new Layout(297, 210, 10, 10, 20);
